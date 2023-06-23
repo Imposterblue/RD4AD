@@ -19,6 +19,8 @@ torch
 torchvision == 0.10.1
 opencv-python
 matplotlib
+scikit-image
+pandas
 numpy == 1.20.3
 scipy == 1.7.1
 scikit-learn == 1.0
