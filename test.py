@@ -124,7 +124,8 @@ def test(_class_):
     encoder.eval()
     decoder = de_wide_resnet50_2(pretrained=False)
     #decoder = decoder.to(device)
-    ckp = torch.load(ckp_path)
+    ### ckp = torch.load(ckp_path)
+    ckp = torch.load(ckp_path, map_location=torch.device('cpu'))
     for k, v in list(ckp['bn'].items()):
         if 'memory' in k:
             ckp['bn'].pop(k)
