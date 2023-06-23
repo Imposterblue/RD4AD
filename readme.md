@@ -17,7 +17,7 @@
     > You should download MVTec from [MVTec AD: MVTec Software](https://www.mvtec.com/company/research/datasets/mvtec-ad/). The folder "mvtec" should be unpacked into the code folder.
 3. Train and Test the Model
 We have write both training and evaluation function in the main.py, execute the following command to see the training and evaluation results.
-    > python main.py
+    > python3 main.py
     
  ## Reference
 	@InProceedings{Deng_2022_CVPR,
