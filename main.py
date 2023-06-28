@@ -1,5 +1,3 @@
-
-
 import torch
 from dataset import get_data_transforms
 from torchvision.datasets import ImageFolder
@@ -12,8 +10,9 @@ from de_resnet import de_resnet18, de_resnet34, de_wide_resnet50_2, de_resnet50
 from dataset import MVTecDataset
 import torch.backends.cudnn as cudnn
 import argparse
-from test import evaluation, visualization, test
+from test import evaluation, visualization, test, visualization_No_CUDA
 from torch.nn import functional as F
+from kyj import visualizationS3, path_test
 
 def count_parameters(model):
     return sum(p.numel() for p in model.parameters() if p.requires_grad)
@@ -109,7 +108,7 @@ def train(_class_):
 import datetime
 from datetime import timedelta
 def record(input):
-    execution_date = datetime.datetime.now() + timedelta(hours=9)
+    execution_date = datetime.datetime.now() #+ timedelta(hours=9)
     execution_date_str = execution_date.strftime("%Y-%m-%d %H:%M:%S")
     with open('record.txt', 'a') as file:
         file.write(f"Execution Date: {execution_date_str}\n")
@@ -130,6 +129,8 @@ if __name__ == '__main__':
     setup_seed(111)
     item_list = ['carpet', 'bottle', 'hazelnut', 'leather', 'cable', 'capsule', 'grid', 'pill',
                  'transistor', 'metal_nut', 'screw','toothbrush', 'zipper', 'tile', 'wood']
-    for i in item_list:
+    #for i in item_list:
         #train(i)
         #test(i)
+    visualizationS3(args.input_img_path)
+        

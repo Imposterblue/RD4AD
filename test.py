@@ -112,7 +112,7 @@ def test(_class_):
     print(_class_)
 
     data_transform, gt_transform = get_data_transforms(256, 256)
-    test_path = '../mvtec/' + _class_
+    test_path = './mvtec/' + _class_
 
     #######ckp_path = './checkpoints/' + 'rm_1105_wres50_ff_mm_' + _class_ + '.pth'
     ckp_path = './checkpoints/' + 'wres50_' + _class_ + '.pth'
@@ -143,18 +143,18 @@ def visualization(_class_):
     print(device)
 
     data_transform, gt_transform = get_data_transforms(256, 256)
-    test_path = '../mvtec/' + _class_
-    ckp_path = './checkpoints/' + 'rm_1105_wres50_ff_mm_'+_class_+'.pth'
+    test_path = './mvtec/' + _class_
+    ckp_path = './checkpoints/' + 'wres50_' + _class_ + '.pth'
     test_data = MVTecDataset(root=test_path, transform=data_transform, gt_transform=gt_transform, phase="test")
     test_dataloader = torch.utils.data.DataLoader(test_data, batch_size=1, shuffle=False)
 
     encoder, bn = wide_resnet50_2(pretrained=True)
     encoder = encoder.to(device)
     bn = bn.to(device)
-
     encoder.eval()
     decoder = de_wide_resnet50_2(pretrained=False)
     decoder = decoder.to(device)
+
     ckp = torch.load(ckp_path)
     for k, v in list(ckp['bn'].items()):
         if 'memory' in k:
@@ -230,6 +230,47 @@ def visualization(_class_):
             #if count>20:
             #    return 0
                 #assert 1==2
+
+def visualization_No_CUDA(_class_):
+    data_transform, gt_transform = get_data_transforms(256, 256)
+    test_path = './mvtec/' + _class_
+    ckp_path = './checkpoints/' + 'wres50_' + _class_ + '.pth'
+    # 예시로 cut defect를 사용
+    test_data = MVTecDataset(root=test_path, transform=data_transform, gt_transform=gt_transform,\
+                              phase="test", defect_type='cut',num='015')
+    test_dataloader = torch.utils.data.DataLoader(test_data, batch_size=1, shuffle=False)
+
+    encoder, bn = wide_resnet50_2(pretrained=True)
+    encoder.eval()
+    decoder = de_wide_resnet50_2(pretrained=False)
+
+    ckp = torch.load(ckp_path)
+    for k, v in list(ckp['bn'].items()):
+        if 'memory' in k:
+            ckp['bn'].pop(k)
+    decoder.load_state_dict(ckp['decoder'])
+    bn.load_state_dict(ckp['bn'])
+
+    with torch.no_grad():
+        for img, gt, label, _ in test_dataloader:
+            if (label.item() == 0): # good 이면 anomaly segmentation 하지 않음
+                print("good product")
+                continue
+            decoder.eval()
+            bn.eval()
+            inputs = encoder(img)
+            outputs = decoder(bn(inputs))
+
+            anomaly_map, amap_list = cal_anomaly_map([inputs[-1]], [outputs[-1]], img.shape[-1], amap_mode='a')
+            anomaly_map = gaussian_filter(anomaly_map, sigma=4)
+            ano_map = min_max_norm(anomaly_map)
+            ano_map = cvt2heatmap(ano_map*255)
+            img = cv2.cvtColor(img.permute(0, 2, 3, 1).cpu().numpy()[0] * 255, cv2.COLOR_BGR2RGB)
+            img = np.uint8(min_max_norm(img)*255)
+            ano_map = show_cam_on_image(img, ano_map)
+            plt.imshow(ano_map)
+            plt.axis('off')
+            plt.show()
 
 
 def vis_nd(name, _class_):
