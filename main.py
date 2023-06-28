@@ -1,7 +1,4 @@
-# This is a sample Python script.
 
-# Press ⌃R to execute it or replace it with your code.
-# Press Double ⇧ to search everywhere for classes, files, tool windows, actions, and settings.
 
 import torch
 from dataset import get_data_transforms
@@ -109,10 +106,21 @@ def train(_class_):
     return auroc_px, auroc_sp, aupro_px
 
 
+import datetime
+from datetime import timedelta
+def record_execution_date():
+    execution_date = datetime.datetime.now() + timedelta(hours=9)
+    execution_date_str = execution_date.strftime("%Y-%m-%d %H:%M:%S")
+    with open('record.txt', 'a') as file:
+        file.write(f"Execution Date: {execution_date_str}\n")
+
+
+
 
 
 if __name__ == '__main__':
-
+    print("start main")
+    record_execution_date()
     setup_seed(111)
     item_list = ['carpet', 'bottle', 'hazelnut', 'leather', 'cable', 'capsule', 'grid', 'pill',
                  'transistor', 'metal_nut', 'screw','toothbrush', 'zipper', 'tile', 'wood']
