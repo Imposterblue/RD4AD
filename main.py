@@ -130,6 +130,6 @@ if __name__ == '__main__':
     setup_seed(111)
     item_list = ['carpet', 'bottle', 'hazelnut', 'leather', 'cable', 'capsule', 'grid', 'pill',
                  'transistor', 'metal_nut', 'screw','toothbrush', 'zipper', 'tile', 'wood']
-    for i in item_list:
+    #for i in item_list:
         #train(i)
         #test(i)
