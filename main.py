@@ -124,7 +124,7 @@ if __name__ == '__main__':
     args = parser.parse_args()
     #print('@ Input image path = ',args.input_img_path)
     
-    #record(args.input_img_path)
+    record(args.input_img_path)
     
     #setup_seed(111)
     #item_list = ['carpet', 'bottle', 'hazelnut', 'leather', 'cable', 'capsule', 'grid', 'pill', 'transistor', 'metal_nut', 'screw','toothbrush', 'zipper', 'tile', 'wood']
