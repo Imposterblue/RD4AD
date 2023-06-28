@@ -33,9 +33,9 @@ def visualizationS3(input_img_path):
     # Extract class, defect_type, and num from input_img_path
     _class_, _defect_type_, _num_ = extract_info(input_img_path)
 
-    print("class: ",_class_)
-    print("defect_type: ",_defect_type_)
-    print("num: ",_num_)
+    #print("class: ",_class_)
+    #print("defect_type: ",_defect_type_)
+    #print("num: ",_num_)
 
     data_transform, gt_transform = get_data_transforms(256, 256)
     test_path = './mvtec/' + _class_
@@ -61,7 +61,7 @@ def visualizationS3(input_img_path):
     with torch.no_grad():
         for img, gt, label, _ in test_dataloader:
             if (label.item() == 0): # good 이면 anomaly segmentation 하지 않음
-                print(f'{_class_}_{_num_} -> good product')
+                #print(f'{_class_}_{_num_} -> good product')
                 continue
             decoder.eval()
             bn.eval()

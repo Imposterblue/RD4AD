@@ -1,6 +1,0 @@
-Execution Date: 2023-06-28 17:22:04
-Img path: mvtec/bottle/test/broken_large/004.png
-Execution Date: 2023-06-28 17:25:35
-Img path: mvtec/bottle/test/broken_large/004.png
-Execution Date: 2023-06-28 17:25:54
-Img path: mvtec/bottle/test/broken_large/011.png

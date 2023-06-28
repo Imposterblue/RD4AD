@@ -118,19 +118,18 @@ def record(input):
 
 
 if __name__ == '__main__':
-    print("start main")
+    #print("start main")
     parser = argparse.ArgumentParser(description='Main script')
     parser.add_argument('--input_img_path', type=str, help='Input image path')
     args = parser.parse_args()
-    print('@ Input image path = ',args.input_img_path)
+    #print('@ Input image path = ',args.input_img_path)
     
-    record(args.input_img_path)
+    #record(args.input_img_path)
     
-    setup_seed(111)
-    item_list = ['carpet', 'bottle', 'hazelnut', 'leather', 'cable', 'capsule', 'grid', 'pill',
-                 'transistor', 'metal_nut', 'screw','toothbrush', 'zipper', 'tile', 'wood']
+    #setup_seed(111)
+    #item_list = ['carpet', 'bottle', 'hazelnut', 'leather', 'cable', 'capsule', 'grid', 'pill', 'transistor', 'metal_nut', 'screw','toothbrush', 'zipper', 'tile', 'wood']
     #for i in item_list:
         #train(i)
         #test(i)
     visualizationS3(args.input_img_path)
-        
+    print('finish')
