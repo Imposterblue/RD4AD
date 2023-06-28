@@ -51,7 +51,7 @@ def visualizationS3(input_img_path):
 
     # Load checkpoint
     ckp_path = f'./checkpoints/wres50_{_class_}.pth' 
-    ckp = torch.load(ckp_path)
+    ckp = torch.load(ckp_path,map_location=torch.device('cpu'))
     for k, v in list(ckp['bn'].items()):
         if 'memory' in k:
             ckp['bn'].pop(k)
