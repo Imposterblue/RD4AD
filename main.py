@@ -108,12 +108,12 @@ def train(_class_):
 
 import datetime
 from datetime import timedelta
-def record_execution_date():
+def record(input):
     execution_date = datetime.datetime.now() + timedelta(hours=9)
     execution_date_str = execution_date.strftime("%Y-%m-%d %H:%M:%S")
     with open('record.txt', 'a') as file:
         file.write(f"Execution Date: {execution_date_str}\n")
-
+        file.write(f"Img path: {input}\n")
 
 
 
@@ -125,11 +125,11 @@ if __name__ == '__main__':
     args = parser.parse_args()
     print('@ Input image path = ',args.input_img_path)
     
-    record_execution_date()
+    record(args.input_img_path)
     
     setup_seed(111)
     item_list = ['carpet', 'bottle', 'hazelnut', 'leather', 'cable', 'capsule', 'grid', 'pill',
                  'transistor', 'metal_nut', 'screw','toothbrush', 'zipper', 'tile', 'wood']
     for i in item_list:
         #train(i)
-        test(i)
+        #test(i)
