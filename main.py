@@ -120,7 +120,13 @@ def record_execution_date():
 
 if __name__ == '__main__':
     print("start main")
+    parser = argparse.ArgumentParser(description='Main script')
+    parser.add_argument('--input_img_path', type=str, help='Input image path')
+    args = parser.parse_args()
+    print('@ Input image path = ',args.input_img_path)
+    
     record_execution_date()
+    
     setup_seed(111)
     item_list = ['carpet', 'bottle', 'hazelnut', 'leather', 'cable', 'capsule', 'grid', 'pill',
                  'transistor', 'metal_nut', 'screw','toothbrush', 'zipper', 'tile', 'wood']
