@@ -9,6 +9,7 @@ from resnet import resnet18, resnet34, resnet50, wide_resnet50_2
 from de_resnet import de_resnet18, de_resnet34, de_wide_resnet50_2, de_resnet50
 from scipy.ndimage import gaussian_filter
 from test import cvt2heatmap, show_cam_on_image, min_max_norm, cal_anomaly_map
+import boto3
 
 def path_test(input_img_path):
     # Extract class, cause, and num from input_img_path
@@ -60,7 +61,7 @@ def visualizationS3(input_img_path):
 
     with torch.no_grad():
         for img, gt, label, _ in test_dataloader:
-            if (label.item() == 0): # good 이면 anomaly segmentation 하지 않음
+            if (label.item() == 0): # good object
                 #print(f'{_class_}_{_num_} -> good product')
                 continue
             decoder.eval()
@@ -82,5 +83,11 @@ def visualizationS3(input_img_path):
             os.makedirs(output_dir, exist_ok=True)
             output_path = os.path.join(output_dir, f'{_class_}{_num_}_caused_by_{_defect_type_}.png')
             cv2.imwrite(output_path, ano_map)
+            
+            s3_client = boto3.client('s3')
+            bucket_name = 'sagemaker-us-east-1-041883464314'
+            s3_key = f"seg_result/{_class_}{_num_}_caused_by_{_defect_type_}.png"
 
+            with open(output_path, 'rb') as data:
+                    s3_client.upload_fileobj(data, bucket_name, s3_key)
 

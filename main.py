@@ -13,6 +13,7 @@ import argparse
 from test import evaluation, visualization, test, visualization_No_CUDA
 from torch.nn import functional as F
 from kyj import visualizationS3, path_test
+import subprocess
 
 def count_parameters(model):
     return sum(p.numel() for p in model.parameters() if p.requires_grad)
@@ -105,31 +106,10 @@ def train(_class_):
     return auroc_px, auroc_sp, aupro_px
 
 
-import datetime
-from datetime import timedelta
-def record(input):
-    execution_date = datetime.datetime.now() #+ timedelta(hours=9)
-    execution_date_str = execution_date.strftime("%Y-%m-%d %H:%M:%S")
-    with open('record.txt', 'a') as file:
-        file.write(f"Execution Date: {execution_date_str}\n")
-        file.write(f"Img path: {input}\n")
-
-
-
-
 if __name__ == '__main__':
-    #print("start main")
     parser = argparse.ArgumentParser(description='Main script')
     parser.add_argument('--input_img_path', type=str, help='Input image path')
     args = parser.parse_args()
-    #print('@ Input image path = ',args.input_img_path)
     
-    record(args.input_img_path)
-    
-    #setup_seed(111)
-    #item_list = ['carpet', 'bottle', 'hazelnut', 'leather', 'cable', 'capsule', 'grid', 'pill', 'transistor', 'metal_nut', 'screw','toothbrush', 'zipper', 'tile', 'wood']
-    #for i in item_list:
-        #train(i)
-        #test(i)
     visualizationS3(args.input_img_path)
-    print('finish')
+    print(args.input_img_path)
